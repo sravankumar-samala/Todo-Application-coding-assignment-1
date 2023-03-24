@@ -45,32 +45,6 @@ const transObjToNewObj = (obj) => {
 // status	   TEXT
 // due_date	   DATE
 
-//Invalid Status
-// --Response
-// --Status code 400
-// --Body Invalid Todo Status
-// Invalid Priority
-// --Response
-// --Status code 400
-// --Body Invalid Todo Priority
-// Invalid Category
-// --Response
-// --Status code 400
-// --Body Invalid Todo Category
-// Invalid Due Date
-// --Response
-// --Status code 400
-// --Body : Invalid Due Date
-
-// getting todo based on following scenarios
-// 3-/?priority=HIGH&status=IN%20PROGRESS
-// 5-/?category=WORK&status=DONE
-// 7-/?category=LEARNING&priority=HIGH
-// 1-/?status=TO%20DO
-// 2-/?priority=HIGH
-// 4-/?search_q=Buy
-// 6-/?category=HOME
-
 // Possible query values, values other than this are false
 const categoryValues = ["WORK", "HOME", "LEARNING"];
 const priorityValues = ["HIGH", "MEDIUM", "LOW"];
@@ -79,7 +53,7 @@ const statusValues = ["TO DO", "IN PROGRESS", "DONE"];
 // functions that checks weather query values are valid or not
 const isDateValid = (date) => {
   const parsedDate = parse(date, "yyyy-MM-dd", new Date());
-  if (isValid(parsedDate)) {
+  if (isValid(parsedDate) === true) {
     return true;
   }
   return "Invalid Due Date";
@@ -201,10 +175,11 @@ app.get("/todos/:Id", async (req, res) => {
 // API ---- 3
 // todo objects with a specific due date in the query parameter
 app.get("/agenda/", async (req, res) => {
-  const { date } = req.query;
+  let { date } = req.query;
   const isValidDate = isDateValid(date);
 
   if (isValidDate === true) {
+    date = format(new Date(date), "yyyy-MM-dd");
     const getTodoQuery = `SELECT * FROM todo WHERE due_date = '${date}';`;
     let todoArr = await db.all(getTodoQuery);
     // const todoItem = await todoObj;
