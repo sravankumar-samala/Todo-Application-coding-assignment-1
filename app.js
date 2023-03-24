@@ -53,17 +53,23 @@ const statusValues = ["TO DO", "IN PROGRESS", "DONE"];
 // functions that checks weather query values are valid or not
 const isDateValid = (date) => {
   const parsedDate = parse(date, "yyyy-MM-dd", new Date());
-  if (isValid(parsedDate) === true) {
+  if (date !== undefined && isValid(parsedDate) === true) {
     return true;
   }
   return "Invalid Due Date";
 };
 const checkValidStatusReq = (status) =>
-  statusValues.includes(status) ? true : "Invalid Todo Status";
+  status !== undefined && statusValues.includes(status)
+    ? true
+    : "Invalid Todo Status";
 const checkValidPriorityReq = (priority) =>
-  priorityValues.includes(priority) ? true : "Invalid Todo Priority";
+  priority !== undefined && priorityValues.includes(priority)
+    ? true
+    : "Invalid Todo Priority";
 const checkValidCategoryReq = (category) =>
-  categoryValues.includes(category) ? true : "Invalid Todo Category";
+  category !== undefined && categoryValues.includes(category)
+    ? true
+    : "Invalid Todo Category";
 
 // API ----- 1
 // Get request based on given scenarios
